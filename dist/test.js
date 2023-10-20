@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_1 = require("./index");
+console.log((0, index_1.toAuto)(1234));
+console.log((0, index_1.toAuto)(12345));
+console.log((0, index_1.toAuto)(123456789));
+console.log((0, index_1.toAuto)(1234, { fixed: 1 }));
+console.log((0, index_1.toAuto)(12345, { fixed: 1 }));
+console.log((0, index_1.toAuto)(123456789, { fixed: 2, space: " " }));
+console.log((0, index_1.toAuto)(12.3 * 10000 * 10000 * 10000, { fixed: 1, space: " " }));
+console.log((0, index_1.toPercent)(0.1234, { fixed: 1, space: " " }));
+console.log((0, index_1.toPercent)(1.234));
