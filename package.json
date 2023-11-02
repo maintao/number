@@ -1,12 +1,12 @@
 {
   "name": "@fnmain/number",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "number utils",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node dist/test.js"
+    "test": "tsc && node dist/test.js"
   },
   "author": "DC",
   "license": "MIT",
