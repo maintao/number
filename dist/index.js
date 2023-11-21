@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -51,3 +51,43 @@ function toPercent(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) 
     return ret + space + "%";
 }
 exports.toPercent = toPercent;
+function parseNumber(input) {
+    // Remove whitespace
+    input = input.trim();
+    // Define a helper function to handle suffixes
+    const handleSuffix = (number, suffix) => {
+        switch (suffix.toLowerCase()) {
+            case "k":
+                return number * 1e3;
+            case "m":
+                return number * 1e6;
+            case "g":
+                return number * 1e9;
+            case "t":
+                return number * 1e12;
+            default:
+                return number;
+        }
+    };
+    // Check for percentage
+    if (input.endsWith("%")) {
+        const number = parseFloat(input.slice(0, -1));
+        return isNaN(number) ? null : number / 100;
+    }
+    // Check for per mille
+    if (input.endsWith("‰")) {
+        const number = parseFloat(input.slice(0, -1));
+        return isNaN(number) ? null : number / 1000;
+    }
+    // Check for suffixes (k, m, g, t)
+    const suffixMatch = input.match(/([kmgKMGtT])$/);
+    if (suffixMatch) {
+        const number = parseFloat(input.slice(0, -1));
+        return isNaN(number) ? null : handleSuffix(number, suffixMatch[0]);
+    }
+    // Check for scientific notation and other formats
+    const number = parseFloat(input);
+    return isNaN(number) ? null : number;
+}
+exports.parseNumber = parseNumber;
+//# sourceMappingURL=index.js.map

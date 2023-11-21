@@ -68,3 +68,47 @@ export function toPercent(
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   return ret + space + "%";
 }
+
+export function parseNumber(input: string): number | null {
+  // Remove whitespace
+  input = input.trim();
+
+  // Define a helper function to handle suffixes
+  const handleSuffix = (number: number, suffix: string): number => {
+    switch (suffix.toLowerCase()) {
+      case "k":
+        return number * 1e3;
+      case "m":
+        return number * 1e6;
+      case "g":
+        return number * 1e9;
+      case "t":
+        return number * 1e12;
+      default:
+        return number;
+    }
+  };
+
+  // Check for percentage
+  if (input.endsWith("%")) {
+    const number = parseFloat(input.slice(0, -1));
+    return isNaN(number) ? null : number / 100;
+  }
+
+  // Check for per mille
+  if (input.endsWith("‰")) {
+    const number = parseFloat(input.slice(0, -1));
+    return isNaN(number) ? null : number / 1000;
+  }
+
+  // Check for suffixes (k, m, g, t)
+  const suffixMatch = input.match(/([kmgKMGtT])$/);
+  if (suffixMatch) {
+    const number = parseFloat(input.slice(0, -1));
+    return isNaN(number) ? null : handleSuffix(number, suffixMatch[0]);
+  }
+
+  // Check for scientific notation and other formats
+  const number = parseFloat(input);
+  return isNaN(number) ? null : number;
+}

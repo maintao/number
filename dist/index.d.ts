@@ -9,4 +9,6 @@ export declare function toYi(value: number, { fixed, trimEndZeros, space }?: Opt
 export declare function toWanYi(value: number, { fixed, trimEndZeros, space }?: Options): string;
 export declare function toAuto(value: number, { fixed, trimEndZeros, space }?: Options): string;
 export declare function toPercent(value: number, { fixed, trimEndZeros, space }?: Options): string;
+export declare function parseNumber(input: string): number | null;
 export {};
+//# sourceMappingURL=index.d.ts.map
