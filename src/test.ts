@@ -23,4 +23,7 @@ console.log(parseNumber("5k")); // 5000
 console.log(parseNumber("3M")); // 3000000
 console.log(parseNumber("2G")); // 2000000000
 console.log(parseNumber("1t")); // 1000000000000
+console.log(parseNumber("1万")); // 10000
+console.log(parseNumber("1w")); // 10000
+console.log(parseNumber("1亿")); // 100000000
 console.log(parseNumber("abc")); // null

@@ -21,5 +21,8 @@ console.log((0, index_1.parseNumber)("5k")); // 5000
 console.log((0, index_1.parseNumber)("3M")); // 3000000
 console.log((0, index_1.parseNumber)("2G")); // 2000000000
 console.log((0, index_1.parseNumber)("1t")); // 1000000000000
+console.log((0, index_1.parseNumber)("1万")); // 10000
+console.log((0, index_1.parseNumber)("1w")); // 10000
+console.log((0, index_1.parseNumber)("1亿")); // 100000000
 console.log((0, index_1.parseNumber)("abc")); // null
 //# sourceMappingURL=test.js.map

@@ -81,9 +81,16 @@ export function parseNumber(input: string): number | null {
       case "m":
         return number * 1e6;
       case "g":
+      case "b":
         return number * 1e9;
       case "t":
         return number * 1e12;
+      case "万":
+      case "萬":
+      case "w":
+        return number * 1e4;
+      case "亿":
+        return number * 1e8;
       default:
         return number;
     }
@@ -102,7 +109,7 @@ export function parseNumber(input: string): number | null {
   }
 
   // Check for suffixes (k, m, g, t)
-  const suffixMatch = input.match(/([kmgKMGtT])$/);
+  const suffixMatch = input.match(/([kmgbt万萬w亿])$/i);
   if (suffixMatch) {
     const number = parseFloat(input.slice(0, -1));
     return isNaN(number) ? null : handleSuffix(number, suffixMatch[0]);
