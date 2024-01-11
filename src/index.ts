@@ -16,7 +16,7 @@ export function trimTrailingZeros(numberString: string): string {
 
 export function toWan(
   value: number,
-  { fixed = 2, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
 ): string {
   let ret = (value / 10000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -25,7 +25,7 @@ export function toWan(
 
 export function toYi(
   value: number,
-  { fixed = 2, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
 ): string {
   let ret = (value / 100000000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -34,7 +34,7 @@ export function toYi(
 
 export function toWanYi(
   value: number,
-  { fixed = 2, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
 ): string {
   let ret = (value / 1000000000000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -43,11 +43,11 @@ export function toWanYi(
 
 export function toAuto(
   value: number,
-  { fixed = 2, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
 ): string {
   const abs = Math.abs(value);
   if (abs < 10000) {
-    let ret = value.toString();
+    let ret = value.toFixed(fixed);
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     return ret;
   }
@@ -62,7 +62,7 @@ export function toAuto(
 
 export function toPercent(
   value: number,
-  { fixed = 2, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
 ) {
   let ret = (value * 100).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;

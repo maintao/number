@@ -11,28 +11,28 @@ function trimTrailingZeros(numberString) {
     return numberString;
 }
 exports.trimTrailingZeros = trimTrailingZeros;
-function toWan(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
+function toWan(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     let ret = (value / 10000).toFixed(fixed);
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     return ret + space + "万";
 }
 exports.toWan = toWan;
-function toYi(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
+function toYi(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     let ret = (value / 100000000).toFixed(fixed);
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     return ret + space + "亿";
 }
 exports.toYi = toYi;
-function toWanYi(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
+function toWanYi(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     let ret = (value / 1000000000000).toFixed(fixed);
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     return ret + space + "万亿";
 }
 exports.toWanYi = toWanYi;
-function toAuto(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
+function toAuto(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     const abs = Math.abs(value);
     if (abs < 10000) {
-        let ret = value.toString();
+        let ret = value.toFixed(fixed);
         ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
         return ret;
     }
@@ -45,7 +45,7 @@ function toAuto(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
     return toWanYi(value, { fixed, trimEndZeros, space });
 }
 exports.toAuto = toAuto;
-function toPercent(value, { fixed = 2, trimEndZeros = false, space = "" } = {}) {
+function toPercent(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     let ret = (value * 100).toFixed(fixed);
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     return ret + space + "%";
