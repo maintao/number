@@ -52,8 +52,8 @@ function toPercent(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) 
 }
 exports.toPercent = toPercent;
 function parseNumber(input) {
-    // Remove whitespace
-    input = input.trim();
+    input = input.trim(); // Remove whitespace
+    input = input.replace(/,/g, ""); // Remove commas
     // Define a helper function to handle suffixes
     const handleSuffix = (number, suffix) => {
         switch (suffix.toLowerCase()) {

@@ -70,8 +70,8 @@ export function toPercent(
 }
 
 export function parseNumber(input: string): number | null {
-  // Remove whitespace
-  input = input.trim();
+  input = input.trim(); // Remove whitespace
+  input = input.replace(/,/g, ""); // Remove commas
 
   // Define a helper function to handle suffixes
   const handleSuffix = (number: number, suffix: string): number => {
