@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -97,4 +97,12 @@ function parseNumber(input) {
     return isNaN(number) ? null : number;
 }
 exports.parseNumber = parseNumber;
+function isNumber(value) {
+    return Number.isFinite(value);
+}
+exports.isNumber = isNumber;
+function isNotNumber(value) {
+    return !Number.isFinite(value);
+}
+exports.isNotNumber = isNotNumber;
 //# sourceMappingURL=index.js.map

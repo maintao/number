@@ -26,4 +26,6 @@ console.log((0, index_1.parseNumber)("1w")); // 10000
 console.log((0, index_1.parseNumber)("1亿")); // 100000000
 console.log((0, index_1.parseNumber)("abc")); // null
 console.log((0, index_1.parseNumber)("1,000,000")); // 1000000
+console.log((0, index_1.isNumber)(null)); // false
+console.log((0, index_1.isNotNumber)(null)); // true
 //# sourceMappingURL=test.js.map

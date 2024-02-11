@@ -119,3 +119,11 @@ export function parseNumber(input: string): number | null {
   const number = parseFloat(input);
   return isNaN(number) ? null : number;
 }
+
+export function isNumber(value: any): boolean {
+  return Number.isFinite(value);
+}
+
+export function isNotNumber(value: any): boolean {
+  return !Number.isFinite(value);
+}

@@ -1,4 +1,4 @@
-import { parseNumber, toAuto, toPercent } from "./index";
+import { isNotNumber, isNumber, parseNumber, toAuto, toPercent } from "./index";
 
 console.log(toAuto(1234));
 console.log(toAuto(12345));
@@ -28,3 +28,6 @@ console.log(parseNumber("1w")); // 10000
 console.log(parseNumber("1亿")); // 100000000
 console.log(parseNumber("abc")); // null
 console.log(parseNumber("1,000,000")); // 1000000
+
+console.log(isNumber(null)); // false
+console.log(isNotNumber(null)); // true
