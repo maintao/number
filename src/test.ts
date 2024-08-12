@@ -32,7 +32,8 @@ console.log(parseNumber("1,000,000")); // 1000000
 console.log(isNumber(null)); // false
 console.log(isNotNumber(null)); // true
 
-console.log(formatWithCommas(12345.6789)); // 12,345.6789
-console.log(formatWithCommas("12345.6789")); // 12,345.6789
+console.log(formatWithCommas(12345.6789)); // 12,345.678,9
+console.log(formatWithCommas("12345.6789")); // 12,345.678,9
+console.log(formatWithCommas("123")); // 123
 console.log(formatWithCommas("abc")); // "NaN"
 console.log(formatWithCommas("abc", { strNaN: "" })); // ""

@@ -140,5 +140,5 @@ export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): st
   if (isNaN(val)) {
     return strNaN;
   }
-  return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
