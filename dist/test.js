@@ -24,8 +24,10 @@ console.log((0, index_1.parseNumber)("1t")); // 1000000000000
 console.log((0, index_1.parseNumber)("1万")); // 10000
 console.log((0, index_1.parseNumber)("1w")); // 10000
 console.log((0, index_1.parseNumber)("1亿")); // 100000000
-console.log((0, index_1.parseNumber)("abc")); // null
+console.log((0, index_1.parseNumber)("abc")); // NaN
 console.log((0, index_1.parseNumber)("1,000,000")); // 1000000
 console.log((0, index_1.isNumber)(null)); // false
 console.log((0, index_1.isNotNumber)(null)); // true
+console.log((0, index_1.formatWithCommas)(12345.6789)); // 12,345.6789
+console.log((0, index_1.formatWithCommas)("12345.6789")); // 12,345.6789
 //# sourceMappingURL=test.js.map

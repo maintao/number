@@ -1,4 +1,4 @@
-import { isNotNumber, isNumber, parseNumber, toAuto, toPercent } from "./index";
+import { formatWithCommas, isNotNumber, isNumber, parseNumber, toAuto, toPercent } from "./index";
 
 console.log(toAuto(1234));
 console.log(toAuto(12345));
@@ -26,8 +26,11 @@ console.log(parseNumber("1t")); // 1000000000000
 console.log(parseNumber("1万")); // 10000
 console.log(parseNumber("1w")); // 10000
 console.log(parseNumber("1亿")); // 100000000
-console.log(parseNumber("abc")); // null
+console.log(parseNumber("abc")); // NaN
 console.log(parseNumber("1,000,000")); // 1000000
 
 console.log(isNumber(null)); // false
 console.log(isNotNumber(null)); // true
+
+console.log(formatWithCommas(12345.6789)); // 12,345.6789
+console.log(formatWithCommas("12345.6789")); // 12,345.6789

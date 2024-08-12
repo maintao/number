@@ -69,7 +69,7 @@ export function toPercent(
   return ret + space + "%";
 }
 
-export function parseNumber(input: string): number | null {
+export function parseNumber(input: string): number {
   input = input.trim(); // Remove whitespace
   input = input.replace(/,/g, ""); // Remove commas
 
@@ -99,25 +99,25 @@ export function parseNumber(input: string): number | null {
   // Check for percentage
   if (input.endsWith("%")) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? null : number / 100;
+    return isNaN(number) ? NaN : number / 100;
   }
 
   // Check for per mille
   if (input.endsWith("‰")) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? null : number / 1000;
+    return isNaN(number) ? NaN : number / 1000;
   }
 
   // Check for suffixes (k, m, g, t)
   const suffixMatch = input.match(/([kmgbt万萬w亿])$/i);
   if (suffixMatch) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? null : handleSuffix(number, suffixMatch[0]);
+    return isNaN(number) ? NaN : handleSuffix(number, suffixMatch[0]);
   }
 
   // Check for scientific notation and other formats
   const number = parseFloat(input);
-  return isNaN(number) ? null : number;
+  return isNaN(number) ? NaN : number;
 }
 
 export function isNumber(value: any): boolean {
@@ -126,4 +126,16 @@ export function isNumber(value: any): boolean {
 
 export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
+}
+
+export function formatWithCommas(value: number | string): string {
+  let val: number;
+
+  if (typeof value === "string") {
+    val = parseNumber(value);
+  } else {
+    val = value;
+  }
+
+  return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

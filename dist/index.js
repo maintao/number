@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -79,22 +79,22 @@ function parseNumber(input) {
     // Check for percentage
     if (input.endsWith("%")) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? null : number / 100;
+        return isNaN(number) ? NaN : number / 100;
     }
     // Check for per mille
     if (input.endsWith("‰")) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? null : number / 1000;
+        return isNaN(number) ? NaN : number / 1000;
     }
     // Check for suffixes (k, m, g, t)
     const suffixMatch = input.match(/([kmgbt万萬w亿])$/i);
     if (suffixMatch) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? null : handleSuffix(number, suffixMatch[0]);
+        return isNaN(number) ? NaN : handleSuffix(number, suffixMatch[0]);
     }
     // Check for scientific notation and other formats
     const number = parseFloat(input);
-    return isNaN(number) ? null : number;
+    return isNaN(number) ? NaN : number;
 }
 exports.parseNumber = parseNumber;
 function isNumber(value) {
@@ -105,4 +105,15 @@ function isNotNumber(value) {
     return !Number.isFinite(value);
 }
 exports.isNotNumber = isNotNumber;
+function formatWithCommas(value) {
+    let val;
+    if (typeof value === "string") {
+        val = parseNumber(value);
+    }
+    else {
+        val = value;
+    }
+    return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+exports.formatWithCommas = formatWithCommas;
 //# sourceMappingURL=index.js.map
