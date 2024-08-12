@@ -34,3 +34,5 @@ console.log(isNotNumber(null)); // true
 
 console.log(formatWithCommas(12345.6789)); // 12,345.6789
 console.log(formatWithCommas("12345.6789")); // 12,345.6789
+console.log(formatWithCommas("abc")); // "NaN"
+console.log(formatWithCommas("abc", { strNaN: "" })); // ""

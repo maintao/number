@@ -12,6 +12,8 @@ export declare function toPercent(value: number, { fixed, trimEndZeros, space }?
 export declare function parseNumber(input: any): number;
 export declare function isNumber(value: any): boolean;
 export declare function isNotNumber(value: any): boolean;
-export declare function formatWithCommas(value: any): string;
+export declare function formatWithCommas(value: any, { strNaN }?: {
+    strNaN: string;
+}): string;
 export {};
 //# sourceMappingURL=index.d.ts.map

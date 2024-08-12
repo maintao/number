@@ -111,8 +111,11 @@ function isNotNumber(value) {
     return !Number.isFinite(value);
 }
 exports.isNotNumber = isNotNumber;
-function formatWithCommas(value) {
+function formatWithCommas(value, { strNaN } = { strNaN: "NaN" }) {
     const val = parseNumber(value);
+    if (isNaN(val)) {
+        return strNaN;
+    }
     return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 exports.formatWithCommas = formatWithCommas;

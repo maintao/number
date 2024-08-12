@@ -30,4 +30,6 @@ console.log((0, index_1.isNumber)(null)); // false
 console.log((0, index_1.isNotNumber)(null)); // true
 console.log((0, index_1.formatWithCommas)(12345.6789)); // 12,345.6789
 console.log((0, index_1.formatWithCommas)("12345.6789")); // 12,345.6789
+console.log((0, index_1.formatWithCommas)("abc")); // "NaN"
+console.log((0, index_1.formatWithCommas)("abc", { strNaN: "" })); // ""
 //# sourceMappingURL=test.js.map

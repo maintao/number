@@ -135,7 +135,10 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
-export function formatWithCommas(value: any): string {
+export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): string {
   const val = parseNumber(value);
+  if (isNaN(val)) {
+    return strNaN;
+  }
   return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
