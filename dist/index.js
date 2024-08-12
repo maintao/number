@@ -52,6 +52,12 @@ function toPercent(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) 
 }
 exports.toPercent = toPercent;
 function parseNumber(input) {
+    if (typeof input === "number") {
+        return input;
+    }
+    if (typeof input !== "string") {
+        return NaN;
+    }
     input = input.trim(); // Remove whitespace
     input = input.replace(/,/g, ""); // Remove commas
     // Define a helper function to handle suffixes
@@ -106,13 +112,7 @@ function isNotNumber(value) {
 }
 exports.isNotNumber = isNotNumber;
 function formatWithCommas(value) {
-    let val;
-    if (typeof value === "string") {
-        val = parseNumber(value);
-    }
-    else {
-        val = value;
-    }
+    const val = parseNumber(value);
     return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 exports.formatWithCommas = formatWithCommas;

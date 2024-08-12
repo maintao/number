@@ -69,7 +69,14 @@ export function toPercent(
   return ret + space + "%";
 }
 
-export function parseNumber(input: string): number {
+export function parseNumber(input: any): number {
+  if (typeof input === "number") {
+    return input;
+  }
+  if (typeof input !== "string") {
+    return NaN;
+  }
+
   input = input.trim(); // Remove whitespace
   input = input.replace(/,/g, ""); // Remove commas
 
@@ -128,14 +135,7 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
-export function formatWithCommas(value: number | string): string {
-  let val: number;
-
-  if (typeof value === "string") {
-    val = parseNumber(value);
-  } else {
-    val = value;
-  }
-
+export function formatWithCommas(value: any): string {
+  const val = parseNumber(value);
   return val.toString().replace(/(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
