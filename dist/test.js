@@ -1,17 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./index");
-console.log((0, index_1.toAuto)(1234));
-console.log((0, index_1.toAuto)(12345));
-console.log((0, index_1.toAuto)(123456789));
-console.log((0, index_1.toAuto)(1234, { fixed: 1 }));
-console.log((0, index_1.toAuto)(12345, { fixed: 1 }));
-console.log((0, index_1.toAuto)(123456789, { fixed: 2, space: " " }));
-console.log((0, index_1.toAuto)(12.3 * 10000 * 10000 * 10000, { fixed: 1, space: " " }));
-console.log((0, index_1.toAuto)(1.00002, { fixed: 1, trimEndZeros: true }));
-console.log((0, index_1.toPercent)(0.1234, { fixed: 1, space: " " }));
-console.log((0, index_1.toPercent)(1.23456, { trimEndZeros: true }));
-console.log((0, index_1.toPercent)(1.9, { fixed: 4, trimEndZeros: true }));
+console.log((0, index_1.toAuto)(1234)); // 1234
+console.log((0, index_1.toAuto)(12345)); // 1万
+console.log((0, index_1.toAuto)(123456789)); // 1亿
+console.log((0, index_1.toAuto)(1234, { fixed: 1 })); // 1234.0
+console.log((0, index_1.toAuto)(12345, { fixed: 1 })); // 1.2万
+console.log((0, index_1.toAuto)(12345, { wanFixed: 2 })); // 1.23万
+console.log((0, index_1.toAuto)(123456789, { fixed: 2, space: " " })); // 1.23 亿
+console.log((0, index_1.toAuto)(123456789, { yiFixed: 3, space: " " })); // 1.234 亿
+console.log((0, index_1.toAuto)(12.3 * 10000 * 10000 * 10000, { fixed: 1, space: " " })); // 12.3 万亿
+console.log((0, index_1.toAuto)(1.00002, { fixed: 1, trimEndZeros: true })); // 1
+console.log((0, index_1.toPercent)(0.1234, { fixed: 1, space: " " })); // 12.3 %
+console.log((0, index_1.toPercent)(1.23456, { trimEndZeros: true })); // 123%
+console.log((0, index_1.toPercent)(1.9, { fixed: 4, trimEndZeros: true })); // 190%
 // Example usage
 console.log((0, index_1.parseNumber)("50%")); // 0.5
 console.log((0, index_1.parseNumber)("1e3")); // 1000

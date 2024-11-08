@@ -29,7 +29,7 @@ function toWanYi(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
     return ret + space + "万亿";
 }
 exports.toWanYi = toWanYi;
-function toAuto(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
+function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros = false, space = "" } = {}) {
     const abs = Math.abs(value);
     if (abs < 10000) {
         let ret = value.toFixed(fixed);
@@ -37,11 +37,14 @@ function toAuto(value, { fixed = 0, trimEndZeros = false, space = "" } = {}) {
         return ret;
     }
     if (abs < 100000000) {
+        fixed = (isNumber(wanFixed) && wanFixed) || fixed;
         return toWan(value, { fixed, trimEndZeros, space });
     }
     if (abs < 1000000000000) {
+        fixed = (isNumber(yiFixed) && yiFixed) || fixed;
         return toYi(value, { fixed, trimEndZeros, space });
     }
+    fixed = (isNumber(wanYiFixed) && wanYiFixed) || fixed;
     return toWanYi(value, { fixed, trimEndZeros, space });
 }
 exports.toAuto = toAuto;

@@ -1,5 +1,8 @@
 type Options = {
   fixed?: number;
+  wanFixed?: number;
+  yiFixed?: number;
+  wanYiFixed?: number;
   trimEndZeros?: boolean;
   space?: string;
 };
@@ -43,7 +46,7 @@ export function toWanYi(
 
 export function toAuto(
   value: number,
-  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
+  { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros = false, space = "" }: Options = {}
 ): string {
   const abs = Math.abs(value);
   if (abs < 10000) {
@@ -52,11 +55,14 @@ export function toAuto(
     return ret;
   }
   if (abs < 100000000) {
+    fixed = (isNumber(wanFixed) && wanFixed) || fixed;
     return toWan(value, { fixed, trimEndZeros, space });
   }
   if (abs < 1000000000000) {
+    fixed = (isNumber(yiFixed) && yiFixed) || fixed;
     return toYi(value, { fixed, trimEndZeros, space });
   }
+  fixed = (isNumber(wanYiFixed) && wanYiFixed) || fixed;
   return toWanYi(value, { fixed, trimEndZeros, space });
 }
 
