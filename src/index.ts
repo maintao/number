@@ -4,6 +4,7 @@ type Options = {
   yiFixed?: number;
   wanYiFixed?: number;
   trimEndZeros?: boolean;
+  nanString?: string;
   space?: string;
 };
 
@@ -18,36 +19,60 @@ export function trimTrailingZeros(numberString: string): string {
 }
 
 export function toWan(
-  value: number,
-  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
+  value: any,
+  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
 ): string {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
   let ret = (value / 10000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   return ret + space + "万";
 }
 
 export function toYi(
-  value: number,
-  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
+  value: any,
+  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
 ): string {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
   let ret = (value / 100000000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   return ret + space + "亿";
 }
 
 export function toWanYi(
-  value: number,
-  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
+  value: any,
+  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
 ): string {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
   let ret = (value / 1000000000000).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   return ret + space + "万亿";
 }
 
 export function toAuto(
-  value: number,
-  { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros = false, space = "" }: Options = {}
+  value: any,
+  {
+    fixed = 0,
+    wanFixed,
+    yiFixed,
+    wanYiFixed,
+    trimEndZeros = false,
+    space = "",
+    nanString = "NaN",
+  }: Options = {}
 ): string {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
   const abs = Math.abs(value);
   if (abs < 10000) {
     let ret = value.toFixed(fixed);
@@ -67,9 +92,13 @@ export function toAuto(
 }
 
 export function toPercent(
-  value: number,
-  { fixed = 0, trimEndZeros = false, space = "" }: Options = {}
-) {
+  value: any,
+  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
+): string {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
   let ret = (value * 100).toFixed(fixed);
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   return ret + space + "%";

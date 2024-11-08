@@ -1,5 +1,7 @@
 import { formatWithCommas, isNotNumber, isNumber, parseNumber, toAuto, toPercent } from "./index";
 
+console.log(toAuto(NaN)); // NaN
+console.log(toAuto(NaN, { nanString: "invalid" })); // invalid
 console.log(toAuto(1234)); // 1234
 console.log(toAuto(12345)); // 1万
 console.log(toAuto(123456789)); // 1亿
@@ -15,6 +17,8 @@ console.log(toAuto(1.00002, { fixed: 1, trimEndZeros: true })); // 1
 console.log(toPercent(0.1234, { fixed: 1, space: " " })); // 12.3 %
 console.log(toPercent(1.23456, { trimEndZeros: true })); // 123%
 console.log(toPercent(1.9, { fixed: 4, trimEndZeros: true })); // 190%
+console.log(toPercent("1.2%", { fixed: 2, trimEndZeros: true })); // 1.2%
+console.log(toPercent("1.2%", { fixed: 2 })); // 1.20%
 
 // Example usage
 console.log(parseNumber("50%")); // 0.5

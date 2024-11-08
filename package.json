@@ -1,6 +1,6 @@
 {
   "name": "@fnmain/number",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "number utils",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
