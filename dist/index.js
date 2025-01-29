@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.removeNumberCommas = exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -142,4 +142,10 @@ function formatWithCommas(value, { strNaN } = { strNaN: "NaN" }) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 exports.formatWithCommas = formatWithCommas;
+function removeNumberCommas(str) {
+    // 使用更严格的正则匹配千分位逗号
+    // 匹配规则：逗号右侧必须是3的倍数的连续数字，直到遇到非数字字符或结尾
+    return str.replace(/(?<=\d{1,3}),(?=(\d{3})+(?!\d))/g, "");
+}
+exports.removeNumberCommas = removeNumberCommas;
 //# sourceMappingURL=index.js.map

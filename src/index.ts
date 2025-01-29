@@ -177,3 +177,9 @@ export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): st
   }
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export function removeNumberCommas(str: string): string {
+  // 使用更严格的正则匹配千分位逗号
+  // 匹配规则：逗号右侧必须是3的倍数的连续数字，直到遇到非数字字符或结尾
+  return str.replace(/(?<=\d{1,3}),(?=(\d{3})+(?!\d))/g, "");
+}

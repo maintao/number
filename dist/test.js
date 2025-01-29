@@ -39,4 +39,6 @@ console.log((0, index_1.formatWithCommas)("12345.6789")); // 12,345.678,9
 console.log((0, index_1.formatWithCommas)("123")); // 123
 console.log((0, index_1.formatWithCommas)("abc")); // "NaN"
 console.log((0, index_1.formatWithCommas)("abc", { strNaN: "" })); // ""
+console.log((0, index_1.removeNumberCommas)("123,456,789")); // 123456789
+console.log((0, index_1.removeNumberCommas)("1,23,456")); // 1,23456
 //# sourceMappingURL=test.js.map

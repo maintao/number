@@ -1,4 +1,12 @@
-import { formatWithCommas, isNotNumber, isNumber, parseNumber, toAuto, toPercent } from "./index";
+import {
+  formatWithCommas,
+  isNotNumber,
+  isNumber,
+  parseNumber,
+  removeNumberCommas,
+  toAuto,
+  toPercent,
+} from "./index";
 
 console.log(toAuto(NaN)); // NaN
 console.log(toAuto(NaN, { nanString: "invalid" })); // invalid
@@ -43,3 +51,6 @@ console.log(formatWithCommas("12345.6789")); // 12,345.678,9
 console.log(formatWithCommas("123")); // 123
 console.log(formatWithCommas("abc")); // "NaN"
 console.log(formatWithCommas("abc", { strNaN: "" })); // ""
+
+console.log(removeNumberCommas("123,456,789")); // 123456789
+console.log(removeNumberCommas("1,23,456")); // 1,23456
