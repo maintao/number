@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeNumberCommas = exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -11,7 +11,7 @@ function trimTrailingZeros(numberString) {
     return numberString;
 }
 exports.trimTrailingZeros = trimTrailingZeros;
-function toWan(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" } = {}) {
+function toWan(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -21,7 +21,7 @@ function toWan(value, { fixed = 0, trimEndZeros = false, space = "", nanString =
     return ret + space + "万";
 }
 exports.toWan = toWan;
-function toYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" } = {}) {
+function toYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -31,7 +31,7 @@ function toYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = 
     return ret + space + "亿";
 }
 exports.toYi = toYi;
-function toWanYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" } = {}) {
+function toWanYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -64,7 +64,7 @@ function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros 
     return toWanYi(value, { fixed, trimEndZeros, space });
 }
 exports.toAuto = toAuto;
-function toPercent(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" } = {}) {
+function toPercent(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -148,4 +148,13 @@ function removeNumberCommas(str) {
     return str.replace(/(?<=\d{1,3}),(?=(\d{3})+(?!\d))/g, "");
 }
 exports.removeNumberCommas = removeNumberCommas;
+function numberFallback(...args) {
+    for (const arg of args) {
+        if (isNumber(arg)) {
+            return arg;
+        }
+    }
+    return NaN;
+}
+exports.numberFallback = numberFallback;
 //# sourceMappingURL=index.js.map

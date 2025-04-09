@@ -41,4 +41,10 @@ console.log((0, index_1.formatWithCommas)("abc")); // "NaN"
 console.log((0, index_1.formatWithCommas)("abc", { strNaN: "" })); // ""
 console.log((0, index_1.removeNumberCommas)("123,456,789")); // 123456789
 console.log((0, index_1.removeNumberCommas)("1,23,456")); // 1,23456
+console.log((0, index_1.removeNumberCommas)(""));
+console.log((0, index_1.numberFallback)(1, 2, 3, "abc")); // 1
+console.log((0, index_1.numberFallback)(undefined, 2, 3, "abc")); // 2
+console.log((0, index_1.numberFallback)(null, 2, 3, "abc")); // 2
+console.log((0, index_1.numberFallback)(NaN, 2, 3, "abc")); // 2
+console.log((0, index_1.numberFallback)(0, 2, 3, "abc")); // 0
 //# sourceMappingURL=test.js.map

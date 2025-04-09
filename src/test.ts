@@ -2,6 +2,7 @@ import {
   formatWithCommas,
   isNotNumber,
   isNumber,
+  numberFallback,
   parseNumber,
   removeNumberCommas,
   toAuto,
@@ -54,3 +55,10 @@ console.log(formatWithCommas("abc", { strNaN: "" })); // ""
 
 console.log(removeNumberCommas("123,456,789")); // 123456789
 console.log(removeNumberCommas("1,23,456")); // 1,23456
+console.log(removeNumberCommas(""));
+
+console.log(numberFallback(1, 2, 3, "abc")); // 1
+console.log(numberFallback(undefined, 2, 3, "abc")); // 2
+console.log(numberFallback(null, 2, 3, "abc")); // 2
+console.log(numberFallback(NaN, 2, 3, "abc")); // 2
+console.log(numberFallback(0, 2, 3, "abc")); // 0

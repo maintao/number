@@ -20,7 +20,12 @@ export function trimTrailingZeros(numberString: string): string {
 
 export function toWan(
   value: any,
-  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
+  {
+    fixed = 0,
+    trimEndZeros = false,
+    space = "",
+    nanString = "NaN",
+  }: Options = {}
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -33,7 +38,12 @@ export function toWan(
 
 export function toYi(
   value: any,
-  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
+  {
+    fixed = 0,
+    trimEndZeros = false,
+    space = "",
+    nanString = "NaN",
+  }: Options = {}
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -46,7 +56,12 @@ export function toYi(
 
 export function toWanYi(
   value: any,
-  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
+  {
+    fixed = 0,
+    trimEndZeros = false,
+    space = "",
+    nanString = "NaN",
+  }: Options = {}
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -93,7 +108,12 @@ export function toAuto(
 
 export function toPercent(
   value: any,
-  { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN" }: Options = {}
+  {
+    fixed = 0,
+    trimEndZeros = false,
+    space = "",
+    nanString = "NaN",
+  }: Options = {}
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -170,7 +190,10 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
-export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): string {
+export function formatWithCommas(
+  value: any,
+  { strNaN } = { strNaN: "NaN" }
+): string {
   const val = parseNumber(value);
   if (isNaN(val)) {
     return strNaN;
@@ -182,4 +205,13 @@ export function removeNumberCommas(str: string): string {
   // 使用更严格的正则匹配千分位逗号
   // 匹配规则：逗号右侧必须是3的倍数的连续数字，直到遇到非数字字符或结尾
   return str.replace(/(?<=\d{1,3}),(?=(\d{3})+(?!\d))/g, "");
+}
+
+export function numberFallback(...args: any[]): number {
+  for (const arg of args) {
+    if (isNumber(arg)) {
+      return arg;
+    }
+  }
+  return NaN;
 }
