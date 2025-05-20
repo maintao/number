@@ -6,7 +6,7 @@ console.log((0, index_1.toAuto)(NaN, { nanString: "invalid" })); // invalid
 console.log((0, index_1.toAuto)(1234)); // 1234
 console.log((0, index_1.toAuto)(12345)); // 1万
 console.log((0, index_1.toAuto)(123456789)); // 1亿
-console.log((0, index_1.toAuto)(1234, { fixed: 1 })); // 1234.0
+console.log((0, index_1.toAuto)(1234, { fixed: 1, withCommas: true })); // 1,234.0
 console.log((0, index_1.toAuto)(12345, { fixed: 1 })); // 1.2万
 console.log((0, index_1.toAuto)(12345, { wanFixed: 2 })); // 1.23万
 console.log((0, index_1.toAuto)(123456789, { fixed: 2, space: " " })); // 1.23 亿
@@ -47,4 +47,6 @@ console.log((0, index_1.numberFallback)(undefined, 2, 3, "abc")); // 2
 console.log((0, index_1.numberFallback)(null, 2, 3, "abc")); // 2
 console.log((0, index_1.numberFallback)(NaN, 2, 3, "abc")); // 2
 console.log((0, index_1.numberFallback)(0, 2, 3, "abc")); // 0
+console.log((0, index_1.toDigit)(1234567.89, { withCommas: true })); // 1,234,567.89
+console.log((0, index_1.toDigit)(-1234567.89, { withCommas: false, fixed: 1 })); // -1234567.9
 //# sourceMappingURL=test.js.map

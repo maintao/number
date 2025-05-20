@@ -5,8 +5,19 @@ type Options = {
   wanYiFixed?: number;
   trimEndZeros?: boolean;
   nanString?: string;
+  withCommas?: boolean;
   space?: string;
 };
+
+function format(
+  value: string,
+  { withCommas = false, trimEndZeros = false }: { withCommas?: boolean; trimEndZeros?: boolean }
+) {
+  let ret = value;
+  ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+  ret = withCommas ? addCommas(ret) : ret;
+  return ret;
+}
 
 export function trimTrailingZeros(numberString: string): string {
   // Check if the string contains a decimal point
@@ -18,10 +29,24 @@ export function trimTrailingZeros(numberString: string): string {
   return numberString;
 }
 
+export function toDigit(
+  value: any,
+  { fixed = 2, withCommas = false, trimEndZeros = false, nanString = "NaN" }: Options
+) {
+  value = parseNumber(value);
+  if (isNaN(value)) {
+    return nanString;
+  }
+  let ret = value.toFixed(fixed);
+  ret = format(ret, { withCommas, trimEndZeros });
+  return ret;
+}
+
 export function toWan(
   value: any,
   {
     fixed = 0,
+    withCommas = false,
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
@@ -32,7 +57,7 @@ export function toWan(
     return nanString;
   }
   let ret = (value / 10000).toFixed(fixed);
-  ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+  ret = format(ret, { withCommas, trimEndZeros });
   return ret + space + "万";
 }
 
@@ -40,6 +65,7 @@ export function toYi(
   value: any,
   {
     fixed = 0,
+    withCommas = false,
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
@@ -50,7 +76,7 @@ export function toYi(
     return nanString;
   }
   let ret = (value / 100000000).toFixed(fixed);
-  ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+  ret = format(ret, { withCommas, trimEndZeros });
   return ret + space + "亿";
 }
 
@@ -58,6 +84,7 @@ export function toWanYi(
   value: any,
   {
     fixed = 0,
+    withCommas = false,
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
@@ -68,7 +95,7 @@ export function toWanYi(
     return nanString;
   }
   let ret = (value / 1000000000000).toFixed(fixed);
-  ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+  ret = format(ret, { withCommas, trimEndZeros });
   return ret + space + "万亿";
 }
 
@@ -79,6 +106,7 @@ export function toAuto(
     wanFixed,
     yiFixed,
     wanYiFixed,
+    withCommas = false,
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
@@ -91,25 +119,26 @@ export function toAuto(
   const abs = Math.abs(value);
   if (abs < 10000) {
     let ret = value.toFixed(fixed);
-    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = format(ret, { withCommas, trimEndZeros });
     return ret;
   }
   if (abs < 100000000) {
     fixed = (isNumber(wanFixed) && wanFixed) || fixed;
-    return toWan(value, { fixed, trimEndZeros, space });
+    return toWan(value, { fixed, withCommas, trimEndZeros, space });
   }
   if (abs < 1000000000000) {
     fixed = (isNumber(yiFixed) && yiFixed) || fixed;
-    return toYi(value, { fixed, trimEndZeros, space });
+    return toYi(value, { fixed, withCommas, trimEndZeros, space });
   }
   fixed = (isNumber(wanYiFixed) && wanYiFixed) || fixed;
-  return toWanYi(value, { fixed, trimEndZeros, space });
+  return toWanYi(value, { fixed, withCommas, trimEndZeros, space });
 }
 
 export function toPercent(
   value: any,
   {
     fixed = 0,
+    withCommas = false,
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
@@ -120,7 +149,7 @@ export function toPercent(
     return nanString;
   }
   let ret = (value * 100).toFixed(fixed);
-  ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+  ret = format(ret, { withCommas, trimEndZeros });
   return ret + space + "%";
 }
 
@@ -190,15 +219,16 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
-export function formatWithCommas(
-  value: any,
-  { strNaN } = { strNaN: "NaN" }
-): string {
+export function addCommas(value: string): string {
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): string {
   const val = parseNumber(value);
   if (isNaN(val)) {
     return strNaN;
   }
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return addCommas(val.toString());
 }
 
 export function removeNumberCommas(str: string): string {

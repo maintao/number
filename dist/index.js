@@ -1,6 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.trimTrailingZeros = void 0;
+exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.trimTrailingZeros = void 0;
+function format(value, { withCommas = false, trimEndZeros = false }) {
+    let ret = value;
+    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = withCommas ? addCommas(ret) : ret;
+    return ret;
+}
 function trimTrailingZeros(numberString) {
     // Check if the string contains a decimal point
     if (numberString.includes(".")) {
@@ -11,37 +17,47 @@ function trimTrailingZeros(numberString) {
     return numberString;
 }
 exports.trimTrailingZeros = trimTrailingZeros;
-function toWan(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toDigit(value, { fixed = 2, withCommas = false, trimEndZeros = false, nanString = "NaN" }) {
+    value = parseNumber(value);
+    if (isNaN(value)) {
+        return nanString;
+    }
+    let ret = value.toFixed(fixed);
+    ret = format(ret, { withCommas, trimEndZeros });
+    return ret;
+}
+exports.toDigit = toDigit;
+function toWan(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 10000).toFixed(fixed);
-    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = format(ret, { withCommas, trimEndZeros });
     return ret + space + "万";
 }
 exports.toWan = toWan;
-function toYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 100000000).toFixed(fixed);
-    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = format(ret, { withCommas, trimEndZeros });
     return ret + space + "亿";
 }
 exports.toYi = toYi;
-function toWanYi(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toWanYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 1000000000000).toFixed(fixed);
-    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = format(ret, { withCommas, trimEndZeros });
     return ret + space + "万亿";
 }
 exports.toWanYi = toWanYi;
-function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -49,28 +65,28 @@ function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, trimEndZeros 
     const abs = Math.abs(value);
     if (abs < 10000) {
         let ret = value.toFixed(fixed);
-        ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+        ret = format(ret, { withCommas, trimEndZeros });
         return ret;
     }
     if (abs < 100000000) {
         fixed = (isNumber(wanFixed) && wanFixed) || fixed;
-        return toWan(value, { fixed, trimEndZeros, space });
+        return toWan(value, { fixed, withCommas, trimEndZeros, space });
     }
     if (abs < 1000000000000) {
         fixed = (isNumber(yiFixed) && yiFixed) || fixed;
-        return toYi(value, { fixed, trimEndZeros, space });
+        return toYi(value, { fixed, withCommas, trimEndZeros, space });
     }
     fixed = (isNumber(wanYiFixed) && wanYiFixed) || fixed;
-    return toWanYi(value, { fixed, trimEndZeros, space });
+    return toWanYi(value, { fixed, withCommas, trimEndZeros, space });
 }
 exports.toAuto = toAuto;
-function toPercent(value, { fixed = 0, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toPercent(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value * 100).toFixed(fixed);
-    ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
+    ret = format(ret, { withCommas, trimEndZeros });
     return ret + space + "%";
 }
 exports.toPercent = toPercent;
@@ -134,12 +150,16 @@ function isNotNumber(value) {
     return !Number.isFinite(value);
 }
 exports.isNotNumber = isNotNumber;
+function addCommas(value) {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+exports.addCommas = addCommas;
 function formatWithCommas(value, { strNaN } = { strNaN: "NaN" }) {
     const val = parseNumber(value);
     if (isNaN(val)) {
         return strNaN;
     }
-    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return addCommas(val.toString());
 }
 exports.formatWithCommas = formatWithCommas;
 function removeNumberCommas(str) {
