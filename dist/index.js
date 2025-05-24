@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.trimTrailingZeros = void 0;
-function format(value, { withCommas = false, trimEndZeros = false }) {
+function format(value, { withCommas = false, trimEndZeros = false, space, unit, }) {
     let ret = value;
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
     ret = withCommas ? addCommas(ret) : ret;
+    ret = space ? ret + space : ret;
+    ret = unit ? ret + unit : ret;
     return ret;
 }
 function trimTrailingZeros(numberString) {
@@ -17,7 +19,7 @@ function trimTrailingZeros(numberString) {
     return numberString;
 }
 exports.trimTrailingZeros = trimTrailingZeros;
-function toDigit(value, { fixed = 2, withCommas = false, trimEndZeros = false, nanString = "NaN" }) {
+function toDigit(value, { fixed = 0, withCommas = false, trimEndZeros = false, nanString = "NaN" }) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
@@ -27,34 +29,34 @@ function toDigit(value, { fixed = 2, withCommas = false, trimEndZeros = false, n
     return ret;
 }
 exports.toDigit = toDigit;
-function toWan(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toWan(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", unit = "万", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 10000).toFixed(fixed);
-    ret = format(ret, { withCommas, trimEndZeros });
-    return ret + space + "万";
+    ret = format(ret, { withCommas, trimEndZeros, space, unit });
+    return ret;
 }
 exports.toWan = toWan;
-function toYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", unit = "亿", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 100000000).toFixed(fixed);
-    ret = format(ret, { withCommas, trimEndZeros });
-    return ret + space + "亿";
+    ret = format(ret, { withCommas, trimEndZeros, space, unit });
+    return ret;
 }
 exports.toYi = toYi;
-function toWanYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toWanYi(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", unit = "万亿", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value / 1000000000000).toFixed(fixed);
-    ret = format(ret, { withCommas, trimEndZeros });
-    return ret + space + "万亿";
+    ret = format(ret, { withCommas, trimEndZeros, space, unit });
+    return ret;
 }
 exports.toWanYi = toWanYi;
 function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
@@ -80,14 +82,14 @@ function toAuto(value, { fixed = 0, wanFixed, yiFixed, wanYiFixed, withCommas = 
     return toWanYi(value, { fixed, withCommas, trimEndZeros, space });
 }
 exports.toAuto = toAuto;
-function toPercent(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", nanString = "NaN", } = {}) {
+function toPercent(value, { fixed = 0, withCommas = false, trimEndZeros = false, space = "", unit = "%", nanString = "NaN", } = {}) {
     value = parseNumber(value);
     if (isNaN(value)) {
         return nanString;
     }
     let ret = (value * 100).toFixed(fixed);
-    ret = format(ret, { withCommas, trimEndZeros });
-    return ret + space + "%";
+    ret = format(ret, { withCommas, trimEndZeros, space, unit });
+    return ret;
 }
 exports.toPercent = toPercent;
 function parseNumber(input) {

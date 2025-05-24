@@ -8,13 +8,17 @@ import {
   toAuto,
   toDigit,
   toPercent,
+  toWan,
+  toYi,
 } from "./index";
 
 console.log(toAuto(NaN)); // NaN
 console.log(toAuto(NaN, { nanString: "invalid" })); // invalid
 console.log(toAuto(1234)); // 1234
 console.log(toAuto(12345)); // 1万
+console.log(toWan(12345)); // 1.23万
 console.log(toAuto(123456789)); // 1亿
+console.log(toYi(123456789, { unit: "亿元" })); // 1亿元
 
 console.log(toAuto(1234, { fixed: 1, withCommas: true })); // 1,234.0
 console.log(toAuto(12345, { fixed: 1 })); // 1.2万
@@ -64,5 +68,5 @@ console.log(numberFallback(null, 2, 3, "abc")); // 2
 console.log(numberFallback(NaN, 2, 3, "abc")); // 2
 console.log(numberFallback(0, 2, 3, "abc")); // 0
 
-console.log(toDigit(1234567.89, { withCommas: true })); // 1,234,567.89
+console.log(toDigit(1234567.89, { withCommas: true })); // 1,234,568
 console.log(toDigit(-1234567.89, { withCommas: false, fixed: 1 })); // -1234567.9

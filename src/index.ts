@@ -6,16 +6,24 @@ type Options = {
   trimEndZeros?: boolean;
   nanString?: string;
   withCommas?: boolean;
+  unit?: string;
   space?: string;
 };
 
 function format(
   value: string,
-  { withCommas = false, trimEndZeros = false }: { withCommas?: boolean; trimEndZeros?: boolean }
+  {
+    withCommas = false,
+    trimEndZeros = false,
+    space,
+    unit,
+  }: { withCommas?: boolean; trimEndZeros?: boolean; space?: string; unit?: string }
 ) {
   let ret = value;
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
   ret = withCommas ? addCommas(ret) : ret;
+  ret = space ? ret + space : ret;
+  ret = unit ? ret + unit : ret;
   return ret;
 }
 
@@ -31,7 +39,7 @@ export function trimTrailingZeros(numberString: string): string {
 
 export function toDigit(
   value: any,
-  { fixed = 2, withCommas = false, trimEndZeros = false, nanString = "NaN" }: Options
+  { fixed = 0, withCommas = false, trimEndZeros = false, nanString = "NaN" }: Options
 ) {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -49,6 +57,7 @@ export function toWan(
     withCommas = false,
     trimEndZeros = false,
     space = "",
+    unit = "万",
     nanString = "NaN",
   }: Options = {}
 ): string {
@@ -57,8 +66,8 @@ export function toWan(
     return nanString;
   }
   let ret = (value / 10000).toFixed(fixed);
-  ret = format(ret, { withCommas, trimEndZeros });
-  return ret + space + "万";
+  ret = format(ret, { withCommas, trimEndZeros, space, unit });
+  return ret;
 }
 
 export function toYi(
@@ -68,6 +77,7 @@ export function toYi(
     withCommas = false,
     trimEndZeros = false,
     space = "",
+    unit = "亿",
     nanString = "NaN",
   }: Options = {}
 ): string {
@@ -76,8 +86,8 @@ export function toYi(
     return nanString;
   }
   let ret = (value / 100000000).toFixed(fixed);
-  ret = format(ret, { withCommas, trimEndZeros });
-  return ret + space + "亿";
+  ret = format(ret, { withCommas, trimEndZeros, space, unit });
+  return ret;
 }
 
 export function toWanYi(
@@ -87,6 +97,7 @@ export function toWanYi(
     withCommas = false,
     trimEndZeros = false,
     space = "",
+    unit = "万亿",
     nanString = "NaN",
   }: Options = {}
 ): string {
@@ -95,8 +106,8 @@ export function toWanYi(
     return nanString;
   }
   let ret = (value / 1000000000000).toFixed(fixed);
-  ret = format(ret, { withCommas, trimEndZeros });
-  return ret + space + "万亿";
+  ret = format(ret, { withCommas, trimEndZeros, space, unit });
+  return ret;
 }
 
 export function toAuto(
@@ -141,6 +152,7 @@ export function toPercent(
     withCommas = false,
     trimEndZeros = false,
     space = "",
+    unit = "%",
     nanString = "NaN",
   }: Options = {}
 ): string {
@@ -149,8 +161,8 @@ export function toPercent(
     return nanString;
   }
   let ret = (value * 100).toFixed(fixed);
-  ret = format(ret, { withCommas, trimEndZeros });
-  return ret + space + "%";
+  ret = format(ret, { withCommas, trimEndZeros, space, unit });
+  return ret;
 }
 
 export function parseNumber(input: any): number {
