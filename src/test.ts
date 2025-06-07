@@ -6,6 +6,7 @@ import {
   parseNumber,
   removeNumberCommas,
   toAuto,
+  toChinese,
   toDigit,
   toPercent,
   toWan,
@@ -70,3 +71,15 @@ console.log(numberFallback(0, 2, 3, "abc")); // 0
 
 console.log(toDigit(1234567.89, { withCommas: true })); // 1,234,568
 console.log(toDigit(-1234567.89, { withCommas: false, fixed: 1 })); // -1234567.9
+
+// toChinese
+console.log(toChinese(1234567890)); // 一十二亿三千四百五十六万七千八百九十
+console.log(toChinese(1234567890, { uppercase: true })); // 壹拾贰亿叁仟肆佰伍拾陆万柒仟捌佰玖拾
+console.log(toChinese(0)); // 零
+console.log(toChinese(1, { uppercase: true })); // 壹
+console.log(toChinese(NaN)); // NaN
+console.log(toChinese(NaN, { nanString: "非数字" })); // 非数字
+console.log(toChinese(123)); // "一百二十三"
+console.log(toChinese(123, { uppercase: true })); // "壹佰贰拾叁"
+console.log(toChinese(1005)); // "一千零五"
+console.log(toChinese(-123)); // "负一百二十三"

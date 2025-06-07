@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.trimTrailingZeros = void 0;
+exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.toChinese = exports.trimTrailingZeros = void 0;
 function format(value, { withCommas = false, trimEndZeros = false, space, unit, }) {
     let ret = value;
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -19,6 +19,93 @@ function trimTrailingZeros(numberString) {
     return numberString;
 }
 exports.trimTrailingZeros = trimTrailingZeros;
+function toChinese(value, { nanString = "NaN", uppercase = false } = {}) {
+    const parsedValue = parseNumber(value);
+    if (isNaN(parsedValue) || !Number.isInteger(parsedValue)) {
+        return nanString;
+    }
+    const num = Math.floor(parsedValue);
+    if (num === 0) {
+        return uppercase ? "零" : "零";
+    }
+    const isNegative = num < 0;
+    const absNum = Math.abs(num);
+    // 中文数字字符映射
+    const digits = uppercase
+        ? ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"]
+        : ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+    const units = uppercase ? ["", "拾", "佰", "仟"] : ["", "十", "百", "千"];
+    const bigUnits = ["", "万", "亿", "万亿"];
+    // 将数字按万进制分组（每4位一组）
+    function convertGroup(n) {
+        if (n === 0)
+            return "";
+        let result = "";
+        let needZero = false;
+        for (let i = 3; i >= 0; i--) {
+            const unit = Math.pow(10, i);
+            const digit = Math.floor(n / unit);
+            n %= unit;
+            if (digit > 0) {
+                if (needZero) {
+                    result += digits[0]; // 添加"零"
+                }
+                result += digits[digit];
+                if (i > 0) {
+                    result += units[i];
+                }
+                needZero = false;
+            }
+            else if (result && n > 0) {
+                needZero = true;
+            }
+        }
+        return result;
+    }
+    // 按万进制分组处理
+    const groups = [];
+    let tempNum = absNum;
+    while (tempNum > 0) {
+        groups.push(tempNum % 10000);
+        tempNum = Math.floor(tempNum / 10000);
+    }
+    let result = "";
+    let hasValue = false;
+    for (let i = groups.length - 1; i >= 0; i--) {
+        const groupValue = groups[i];
+        if (groupValue > 0) {
+            const groupStr = convertGroup(groupValue);
+            if (groupStr) {
+                // 处理"一十"的特殊情况
+                if (i === 0 && groupValue >= 10 && groupValue < 20 && !uppercase) {
+                    result += groupStr.replace(/^一十/, "十");
+                }
+                else {
+                    result += groupStr;
+                }
+                if (i > 0) {
+                    result += bigUnits[i];
+                }
+                hasValue = true;
+            }
+        }
+        else if (hasValue && i > 0) {
+            // 需要添加零
+            let needZero = false;
+            for (let j = i - 1; j >= 0; j--) {
+                if (groups[j] > 0) {
+                    needZero = true;
+                    break;
+                }
+            }
+            if (needZero) {
+                result += digits[0];
+            }
+        }
+    }
+    return isNegative ? "负" + result : result;
+}
+exports.toChinese = toChinese;
 function toDigit(value, { fixed = 0, withCommas = false, trimEndZeros = false, nanString = "NaN" }) {
     value = parseNumber(value);
     if (isNaN(value)) {

@@ -8,8 +8,10 @@ type Options = {
     withCommas?: boolean;
     unit?: string;
     space?: string;
+    uppercase?: boolean;
 };
 export declare function trimTrailingZeros(numberString: string): string;
+export declare function toChinese(value: any, { nanString, uppercase }?: Options): string;
 export declare function toDigit(value: any, { fixed, withCommas, trimEndZeros, nanString }: Options): any;
 export declare function toWan(value: any, { fixed, withCommas, trimEndZeros, space, unit, nanString, }?: Options): string;
 export declare function toYi(value: any, { fixed, withCommas, trimEndZeros, space, unit, nanString, }?: Options): string;

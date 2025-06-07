@@ -51,4 +51,15 @@ console.log((0, index_1.numberFallback)(NaN, 2, 3, "abc")); // 2
 console.log((0, index_1.numberFallback)(0, 2, 3, "abc")); // 0
 console.log((0, index_1.toDigit)(1234567.89, { withCommas: true })); // 1,234,568
 console.log((0, index_1.toDigit)(-1234567.89, { withCommas: false, fixed: 1 })); // -1234567.9
+// toChinese
+console.log((0, index_1.toChinese)(1234567890)); // 一十二亿三千四百五十六万七千八百九十
+console.log((0, index_1.toChinese)(1234567890, { uppercase: true })); // 壹拾贰亿叁仟肆佰伍拾陆万柒仟捌佰玖拾
+console.log((0, index_1.toChinese)(0)); // 零
+console.log((0, index_1.toChinese)(1, { uppercase: true })); // 壹
+console.log((0, index_1.toChinese)(NaN)); // NaN
+console.log((0, index_1.toChinese)(NaN, { nanString: "非数字" })); // 非数字
+console.log((0, index_1.toChinese)(123)); // "一百二十三"
+console.log((0, index_1.toChinese)(123, { uppercase: true })); // "壹佰贰拾叁"
+console.log((0, index_1.toChinese)(1005)); // "一千零五"
+console.log((0, index_1.toChinese)(-123)); // "负一百二十三"
 //# sourceMappingURL=test.js.map
