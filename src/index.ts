@@ -357,3 +357,15 @@ export function numberFallback(...args: any[]): number {
   }
   return NaN;
 }
+
+export function sum(...args: any[]): number {
+  return args.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
+}
+
+export function min(...args: any[]): number {
+  return Math.min(...args.map(parseNumber).filter(isNumber));
+}
+
+export function max(...args: any[]): number {
+  return Math.max(...args.map(parseNumber).filter(isNumber));
+}

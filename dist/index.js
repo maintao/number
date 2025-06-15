@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.toChinese = exports.trimTrailingZeros = void 0;
+exports.max = exports.min = exports.sum = exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.toChinese = exports.trimTrailingZeros = void 0;
 function format(value, { withCommas = false, trimEndZeros = false, space, unit, }) {
     let ret = value;
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -266,4 +266,16 @@ function numberFallback(...args) {
     return NaN;
 }
 exports.numberFallback = numberFallback;
+function sum(...args) {
+    return args.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
+}
+exports.sum = sum;
+function min(...args) {
+    return Math.min(...args.map(parseNumber).filter(isNumber));
+}
+exports.min = min;
+function max(...args) {
+    return Math.max(...args.map(parseNumber).filter(isNumber));
+}
+exports.max = max;
 //# sourceMappingURL=index.js.map

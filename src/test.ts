@@ -2,9 +2,12 @@ import {
   formatWithCommas,
   isNotNumber,
   isNumber,
+  max,
+  min,
   numberFallback,
   parseNumber,
   removeNumberCommas,
+  sum,
   toAuto,
   toChinese,
   toDigit,
@@ -83,3 +86,18 @@ console.log(toChinese(123)); // "一百二十三"
 console.log(toChinese(123, { uppercase: true })); // "壹佰贰拾叁"
 console.log(toChinese(1005)); // "一千零五"
 console.log(toChinese(-123)); // "负一百二十三"
+
+// sum
+console.log(sum(1, 2, 3, "abc")); // 6
+console.log(sum(1, 2, 3, "abc", NaN)); // 6
+console.log(sum(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 7
+
+// min
+console.log(min(1, 2, 3, "abc")); // 1
+console.log(min(1, 2, 3, "abc", NaN)); // 1
+console.log(min(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 1
+
+// max
+console.log(max(1, 2, 3, "abc")); // 3
+console.log(max(1, 2, 3, "abc", NaN)); // 3
+console.log(max(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 3

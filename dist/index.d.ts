@@ -27,5 +27,8 @@ export declare function formatWithCommas(value: any, { strNaN }?: {
 }): string;
 export declare function removeNumberCommas(str: string): string;
 export declare function numberFallback(...args: any[]): number;
+export declare function sum(...args: any[]): number;
+export declare function min(...args: any[]): number;
+export declare function max(...args: any[]): number;
 export {};
 //# sourceMappingURL=index.d.ts.map
