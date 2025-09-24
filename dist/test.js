@@ -82,4 +82,15 @@ console.log("round:", (0, index_1.round)(0.300000000005, 11)); // 0.30000000001
 console.log("roundDown:", (0, index_1.roundDown)(100000 * 0.0783, 0)); // 7830
 console.log("roundDown:", (0, index_1.roundUp)(100000 * 0.0783, 0)); // 7830
 console.log("roundDown", (0, index_1.roundDown)(2.999999999999998, 0)); // 3
+console.log("roundUp", (0, index_1.roundUp)(10000 * 0.0003, 8)); // 3
+console.log("roundDown", (0, index_1.roundDown)(10000 * 0.0003, 0)); // 3
+console.log("Math.floor", Math.floor(10000 * 0.0003)); // 2
+console.log("roundDown(-12345, -2) = ", (0, index_1.roundDown)(-12345, -2)); // -12400
+console.log("round(-12345, -2) = ", (0, index_1.round)(-12345, -2)); // -12300
+console.log("round(100000 * 0.0003, -1) = ", (0, index_1.round)(100000 * 0.0003, -1)); // 30
+console.log("roundUp(100000 * 0.0003, -1) = ", (0, index_1.roundUp)(100000 * 0.0003, -1)); // 30
+console.log("roundDown(100000 * 0.0003, -1) = ", (0, index_1.roundDown)(100000 * 0.0003, -1)); // 30
+console.log("round(100000 * 0.0003) = ", (0, index_1.round)(10000 * 0.0003)); // 3
+console.log("roundUp(100000 * 0.0003) = ", (0, index_1.roundUp)(10000 * 0.0003)); // 3
+console.log("roundDown(100000 * 0.0003) = ", (0, index_1.roundDown)(10000 * 0.0003)); // 3
 //# sourceMappingURL=test.js.map

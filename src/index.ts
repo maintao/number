@@ -331,9 +331,14 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
-// 数字是非负整数
+// 数字是非负整数：0、1、2、3...
 export function isNonNegativeInteger(value: any): boolean {
   return Number.isInteger(value) && value >= 0;
+}
+
+// 数字是正整数：1、2、3...
+export function isPositiveInteger(value: any): boolean {
+  return Number.isInteger(value) && value > 0;
 }
 
 export function addCommas(value: string): string {
@@ -378,50 +383,34 @@ export function max(...args: any[]): number {
 /**
  * 安全的向上取整
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 向上取整后的结果
  */
-export function roundUp(num: number, fixed: number): number {
-  validateRoundParams(num, fixed);
-  const safeNum = safe(num);
-  const factor = 10 ** fixed;
-  return Math.ceil((safeNum - Number.EPSILON) * factor) / factor;
+export function roundUp(num: number, N: number = 0): number {
+  const factor = 10 ** N;
+  return Math.ceil((safe(num) - Number.EPSILON) * factor) / factor;
 }
 
 /**
  * 安全的向下取整
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 向下取整后的结果
  */
-export function roundDown(num: number, fixed: number): number {
-  validateRoundParams(num, fixed);
-  const safeNum = safe(num);
-  const factor = 10 ** fixed;
-  return Math.floor((safeNum + Number.EPSILON) * factor) / factor;
+export function roundDown(num: number, N: number = 0): number {
+  const factor = 10 ** N;
+  return Math.floor((safe(num) + Number.EPSILON) * factor) / factor;
 }
 
 /**
  * 安全的四舍五入
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 四舍五入后的结果
  */
-export function round(num: number, fixed: number): number {
-  validateRoundParams(num, fixed);
-  const safeNum = safe(num);
-  const factor = 10 ** fixed;
-  return Math.round(safeNum * factor) / factor;
-}
-
-/** 参数验证 */
-function validateRoundParams(num: number, fixed: number): void {
-  if (isNotNumber(num)) {
-    throw new Error("第一个参数 num 必须是有效数字");
-  }
-  if (!isNonNegativeInteger(fixed)) {
-    throw new Error("第二个参数 fixed 必须是非负整数");
-  }
+export function round(num: number, N: number = 0): number {
+  const factor = 10 ** N;
+  return Math.round(num * factor) / factor;
 }
 
 /** 修正数字到安全精度范围 */

@@ -22,6 +22,7 @@ export declare function parseNumber(input: any): number;
 export declare function isNumber(value: any): boolean;
 export declare function isNotNumber(value: any): boolean;
 export declare function isNonNegativeInteger(value: any): boolean;
+export declare function isPositiveInteger(value: any): boolean;
 export declare function addCommas(value: string): string;
 export declare function formatWithCommas(value: any, { strNaN }?: {
     strNaN: string;
@@ -34,24 +35,24 @@ export declare function max(...args: any[]): number;
 /**
  * 安全的向上取整
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 向上取整后的结果
  */
-export declare function roundUp(num: number, fixed: number): number;
+export declare function roundUp(num: number, N?: number): number;
 /**
  * 安全的向下取整
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 向下取整后的结果
  */
-export declare function roundDown(num: number, fixed: number): number;
+export declare function roundDown(num: number, N?: number): number;
 /**
  * 安全的四舍五入
  * @param num 待处理的数字
- * @param fixed 保留的小数位数（非负整数）
+ * @param N 保留的小数位数（可正可负，默认为0）
  * @returns 四舍五入后的结果
  */
-export declare function round(num: number, fixed: number): number;
+export declare function round(num: number, N?: number): number;
 /** 修正数字到安全精度范围 */
 export declare function safe(num: number): number;
 export {};

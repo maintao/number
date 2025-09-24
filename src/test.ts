@@ -113,3 +113,14 @@ console.log("round:", round(0.300000000005, 11)); // 0.30000000001
 console.log("roundDown:", roundDown(100000 * 0.0783, 0)); // 7830
 console.log("roundDown:", roundUp(100000 * 0.0783, 0)); // 7830
 console.log("roundDown", roundDown(2.999999999999998, 0)); // 3
+console.log("roundUp", roundUp(10000 * 0.0003, 8)); // 3
+console.log("roundDown", roundDown(10000 * 0.0003, 0)); // 3
+console.log("Math.floor", Math.floor(10000 * 0.0003)); // 2
+console.log("roundDown(-12345, -2) = ", roundDown(-12345, -2)); // -12400
+console.log("round(-12345, -2) = ", round(-12345, -2)); // -12300
+console.log("round(100000 * 0.0003, -1) = ", round(100000 * 0.0003, -1)); // 30
+console.log("roundUp(100000 * 0.0003, -1) = ", roundUp(100000 * 0.0003, -1)); // 30
+console.log("roundDown(100000 * 0.0003, -1) = ", roundDown(100000 * 0.0003, -1)); // 30
+console.log("round(100000 * 0.0003) = ", round(10000 * 0.0003)); // 3
+console.log("roundUp(100000 * 0.0003) = ", roundUp(10000 * 0.0003)); // 3
+console.log("roundDown(100000 * 0.0003) = ", roundDown(10000 * 0.0003)); // 3
