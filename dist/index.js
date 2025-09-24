@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.max = exports.min = exports.sum = exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.toChinese = exports.trimTrailingZeros = void 0;
+exports.safe = exports.round = exports.roundDown = exports.roundUp = exports.max = exports.min = exports.sum = exports.numberFallback = exports.removeNumberCommas = exports.formatWithCommas = exports.addCommas = exports.isNonNegativeInteger = exports.isNotNumber = exports.isNumber = exports.parseNumber = exports.toPercent = exports.toAuto = exports.toWanYi = exports.toYi = exports.toWan = exports.toDigit = exports.toChinese = exports.trimTrailingZeros = void 0;
 function format(value, { withCommas = false, trimEndZeros = false, space, unit, }) {
     let ret = value;
     ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -239,6 +239,11 @@ function isNotNumber(value) {
     return !Number.isFinite(value);
 }
 exports.isNotNumber = isNotNumber;
+// 数字是非负整数
+function isNonNegativeInteger(value) {
+    return Number.isInteger(value) && value >= 0;
+}
+exports.isNonNegativeInteger = isNonNegativeInteger;
 function addCommas(value) {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -278,4 +283,57 @@ function max(...args) {
     return Math.max(...args.map(parseNumber).filter(isNumber));
 }
 exports.max = max;
+/**
+ * 安全的向上取整
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 向上取整后的结果
+ */
+function roundUp(num, fixed) {
+    validateRoundParams(num, fixed);
+    const safeNum = safe(num);
+    const factor = Math.pow(10, fixed);
+    return Math.ceil((safeNum - Number.EPSILON) * factor) / factor;
+}
+exports.roundUp = roundUp;
+/**
+ * 安全的向下取整
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 向下取整后的结果
+ */
+function roundDown(num, fixed) {
+    validateRoundParams(num, fixed);
+    const safeNum = safe(num);
+    const factor = Math.pow(10, fixed);
+    return Math.floor((safeNum + Number.EPSILON) * factor) / factor;
+}
+exports.roundDown = roundDown;
+/**
+ * 安全的四舍五入
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 四舍五入后的结果
+ */
+function round(num, fixed) {
+    validateRoundParams(num, fixed);
+    const safeNum = safe(num);
+    const factor = Math.pow(10, fixed);
+    return Math.round(safeNum * factor) / factor;
+}
+exports.round = round;
+/** 参数验证 */
+function validateRoundParams(num, fixed) {
+    if (isNotNumber(num)) {
+        throw new Error("第一个参数 num 必须是有效数字");
+    }
+    if (!isNonNegativeInteger(fixed)) {
+        throw new Error("第二个参数 fixed 必须是非负整数");
+    }
+}
+/** 修正数字到安全精度范围 */
+function safe(num) {
+    return Number.isSafeInteger(num) ? num : Number(num.toPrecision(14));
+}
+exports.safe = safe;
 //# sourceMappingURL=index.js.map

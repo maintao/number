@@ -7,6 +7,9 @@ import {
   numberFallback,
   parseNumber,
   removeNumberCommas,
+  round,
+  roundDown,
+  roundUp,
   sum,
   toAuto,
   toChinese,
@@ -101,3 +104,12 @@ console.log(min(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 1
 console.log(max(1, 2, 3, "abc")); // 3
 console.log(max(1, 2, 3, "abc", NaN)); // 3
 console.log(max(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 3
+
+console.log("round:", round(2.12345, 4)); // 2.1235
+console.log("roundUp:", roundUp(0.1 + 0.2, 1)); // 0.3
+console.log("roundUp:", roundUp(0.30000000000000004, 1)); // 0.3
+console.log("roundDown:", roundDown(0.30000000000000004, 1)); // 0.3
+console.log("round:", round(0.300000000005, 11)); // 0.30000000001
+console.log("roundDown:", roundDown(100000 * 0.0783, 0)); // 7830
+console.log("roundDown:", roundUp(100000 * 0.0783, 0)); // 7830
+console.log("roundDown", roundDown(2.999999999999998, 0)); // 3

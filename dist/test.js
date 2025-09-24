@@ -74,4 +74,12 @@ console.log((0, index_1.min)(1, 2, 3, "abc", NaN, undefined, null, "", "1")); //
 console.log((0, index_1.max)(1, 2, 3, "abc")); // 3
 console.log((0, index_1.max)(1, 2, 3, "abc", NaN)); // 3
 console.log((0, index_1.max)(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 3
+console.log("round:", (0, index_1.round)(2.12345, 4)); // 2.1235
+console.log("roundUp:", (0, index_1.roundUp)(0.1 + 0.2, 1)); // 0.3
+console.log("roundUp:", (0, index_1.roundUp)(0.30000000000000004, 1)); // 0.3
+console.log("roundDown:", (0, index_1.roundDown)(0.30000000000000004, 1)); // 0.3
+console.log("round:", (0, index_1.round)(0.300000000005, 11)); // 0.30000000001
+console.log("roundDown:", (0, index_1.roundDown)(100000 * 0.0783, 0)); // 7830
+console.log("roundDown:", (0, index_1.roundUp)(100000 * 0.0783, 0)); // 7830
+console.log("roundDown", (0, index_1.roundDown)(2.999999999999998, 0)); // 3
 //# sourceMappingURL=test.js.map

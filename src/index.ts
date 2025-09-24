@@ -331,6 +331,11 @@ export function isNotNumber(value: any): boolean {
   return !Number.isFinite(value);
 }
 
+// 数字是非负整数
+export function isNonNegativeInteger(value: any): boolean {
+  return Number.isInteger(value) && value >= 0;
+}
+
 export function addCommas(value: string): string {
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -368,4 +373,58 @@ export function min(...args: any[]): number {
 
 export function max(...args: any[]): number {
   return Math.max(...args.map(parseNumber).filter(isNumber));
+}
+
+/**
+ * 安全的向上取整
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 向上取整后的结果
+ */
+export function roundUp(num: number, fixed: number): number {
+  validateRoundParams(num, fixed);
+  const safeNum = safe(num);
+  const factor = 10 ** fixed;
+  return Math.ceil((safeNum - Number.EPSILON) * factor) / factor;
+}
+
+/**
+ * 安全的向下取整
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 向下取整后的结果
+ */
+export function roundDown(num: number, fixed: number): number {
+  validateRoundParams(num, fixed);
+  const safeNum = safe(num);
+  const factor = 10 ** fixed;
+  return Math.floor((safeNum + Number.EPSILON) * factor) / factor;
+}
+
+/**
+ * 安全的四舍五入
+ * @param num 待处理的数字
+ * @param fixed 保留的小数位数（非负整数）
+ * @returns 四舍五入后的结果
+ */
+export function round(num: number, fixed: number): number {
+  validateRoundParams(num, fixed);
+  const safeNum = safe(num);
+  const factor = 10 ** fixed;
+  return Math.round(safeNum * factor) / factor;
+}
+
+/** 参数验证 */
+function validateRoundParams(num: number, fixed: number): void {
+  if (isNotNumber(num)) {
+    throw new Error("第一个参数 num 必须是有效数字");
+  }
+  if (!isNonNegativeInteger(fixed)) {
+    throw new Error("第二个参数 fixed 必须是非负整数");
+  }
+}
+
+/** 修正数字到安全精度范围 */
+export function safe(num: number): number {
+  return Number.isSafeInteger(num) ? num : Number(num.toPrecision(14));
 }
