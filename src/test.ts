@@ -94,6 +94,8 @@ console.log(toChinese(-123)); // "负一百二十三"
 console.log(sum(1, 2, 3, "abc")); // 6
 console.log(sum(1, 2, 3, "abc", NaN)); // 6
 console.log(sum(1, 2, 3, "abc", NaN, undefined, null, "", "1")); // 7
+console.log(sum([1, 2, 3], [4])); // 10
+console.log(sum([1, 2, 3], 4)); // 10
 
 // min
 console.log(min(1, 2, 3, "abc")); // 1

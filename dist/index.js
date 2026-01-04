@@ -277,7 +277,10 @@ function numberFallback(...args) {
 }
 exports.numberFallback = numberFallback;
 function sum(...args) {
-    return args.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
+    // 如果参数是数组，则将其展平处理
+    const list = args.flat();
+    // 每一个元素都尽可能解析成数字，解析失败的则视为0
+    return list.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
 }
 exports.sum = sum;
 function min(...args) {

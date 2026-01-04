@@ -369,7 +369,10 @@ export function numberFallback(...args: any[]): number {
 }
 
 export function sum(...args: any[]): number {
-  return args.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
+  // 如果参数是数组，则将其展平处理
+  const list = args.flat();
+  // 每一个元素都尽可能解析成数字，解析失败的则视为0
+  return list.reduce((acc, curr) => acc + (parseNumber(curr) || 0), 0);
 }
 
 export function min(...args: any[]): number {
