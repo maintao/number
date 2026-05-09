@@ -59,8 +59,8 @@ console.log(parseNumber("1,000,000")); // 1000000
 console.log(isNumber(null)); // false
 console.log(isNotNumber(null)); // true
 
-console.log(formatWithCommas(12345.6789)); // 12,345.678,9
-console.log(formatWithCommas("12345.6789")); // 12,345.678,9
+console.log(formatWithCommas(12345.6789)); // 12,345.6789
+console.log(formatWithCommas("12345.6789")); // 12,345.6789
 console.log(formatWithCommas("123")); // 123
 console.log(formatWithCommas("abc")); // "NaN"
 console.log(formatWithCommas("abc", { strNaN: "" })); // ""
@@ -126,3 +126,9 @@ console.log("roundDown(100000 * 0.0003, -1) = ", roundDown(100000 * 0.0003, -1))
 console.log("round(100000 * 0.0003) = ", round(10000 * 0.0003)); // 3
 console.log("roundUp(100000 * 0.0003) = ", roundUp(10000 * 0.0003)); // 3
 console.log("roundDown(100000 * 0.0003) = ", roundDown(10000 * 0.0003)); // 3
+
+// New test cases
+console.log("roundUp(2.341, 2) = ", roundUp(2.341, 2)); // 2.35
+console.log("roundDown(2.349, 2) = ", roundDown(2.349, 2)); // 2.34
+console.log("round(2.345, 2) = ", round(2.345, 2)); // 2.35
+console.log("round(2.344, 2) = ", round(2.344, 2)); // 2.34

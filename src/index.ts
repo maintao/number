@@ -18,7 +18,7 @@ function format(
     trimEndZeros = false,
     space,
     unit,
-  }: { withCommas?: boolean; trimEndZeros?: boolean; space?: string; unit?: string }
+  }: { withCommas?: boolean; trimEndZeros?: boolean; space?: string; unit?: string },
 ) {
   let ret = value;
   ret = trimEndZeros ? trimTrailingZeros(ret) : ret;
@@ -139,7 +139,7 @@ export function toChinese(value: any, { nanString = "NaN", uppercase = false }: 
 
 export function toDigit(
   value: any,
-  { fixed = 0, withCommas = false, trimEndZeros = false, nanString = "NaN" }: Options
+  { fixed = 0, withCommas = false, trimEndZeros = false, nanString = "NaN" }: Options,
 ) {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -159,7 +159,7 @@ export function toWan(
     space = "",
     unit = "万",
     nanString = "NaN",
-  }: Options = {}
+  }: Options = {},
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -179,7 +179,7 @@ export function toYi(
     space = "",
     unit = "亿",
     nanString = "NaN",
-  }: Options = {}
+  }: Options = {},
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -199,7 +199,7 @@ export function toWanYi(
     space = "",
     unit = "万亿",
     nanString = "NaN",
-  }: Options = {}
+  }: Options = {},
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -221,7 +221,7 @@ export function toAuto(
     trimEndZeros = false,
     space = "",
     nanString = "NaN",
-  }: Options = {}
+  }: Options = {},
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -254,7 +254,7 @@ export function toPercent(
     space = "",
     unit = "%",
     nanString = "NaN",
-  }: Options = {}
+  }: Options = {},
 ): string {
   value = parseNumber(value);
   if (isNaN(value)) {
@@ -267,7 +267,7 @@ export function toPercent(
 
 export function parseNumber(input: any): number {
   if (typeof input === "number") {
-    return input;
+    return safe(input);
   }
   if (typeof input !== "string") {
     return NaN;
@@ -302,25 +302,25 @@ export function parseNumber(input: any): number {
   // Check for percentage
   if (input.endsWith("%")) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? NaN : number / 100;
+    return isNaN(number) ? NaN : safe(number / 100);
   }
 
   // Check for per mille
   if (input.endsWith("‰")) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? NaN : number / 1000;
+    return isNaN(number) ? NaN : safe(number / 1000);
   }
 
   // Check for suffixes (k, m, g, t)
   const suffixMatch = input.match(/([kmgbt万萬w亿])$/i);
   if (suffixMatch) {
     const number = parseFloat(input.slice(0, -1));
-    return isNaN(number) ? NaN : handleSuffix(number, suffixMatch[0]);
+    return isNaN(number) ? NaN : safe(handleSuffix(number, suffixMatch[0]));
   }
 
   // Check for scientific notation and other formats
   const number = parseFloat(input);
-  return isNaN(number) ? NaN : number;
+  return isNaN(number) ? NaN : safe(number);
 }
 
 export function isNumber(value: any): boolean {
@@ -342,7 +342,9 @@ export function isPositiveInteger(value: any): boolean {
 }
 
 export function addCommas(value: string): string {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const [integerPart, decimalPart] = value.split(".");
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
 
 export function formatWithCommas(value: any, { strNaN } = { strNaN: "NaN" }): string {

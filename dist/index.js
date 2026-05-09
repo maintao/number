@@ -181,7 +181,7 @@ function toPercent(value, { fixed = 0, withCommas = false, trimEndZeros = false,
 exports.toPercent = toPercent;
 function parseNumber(input) {
     if (typeof input === "number") {
-        return input;
+        return safe(input);
     }
     if (typeof input !== "string") {
         return NaN;
@@ -213,22 +213,22 @@ function parseNumber(input) {
     // Check for percentage
     if (input.endsWith("%")) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? NaN : number / 100;
+        return isNaN(number) ? NaN : safe(number / 100);
     }
     // Check for per mille
     if (input.endsWith("‰")) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? NaN : number / 1000;
+        return isNaN(number) ? NaN : safe(number / 1000);
     }
     // Check for suffixes (k, m, g, t)
     const suffixMatch = input.match(/([kmgbt万萬w亿])$/i);
     if (suffixMatch) {
         const number = parseFloat(input.slice(0, -1));
-        return isNaN(number) ? NaN : handleSuffix(number, suffixMatch[0]);
+        return isNaN(number) ? NaN : safe(handleSuffix(number, suffixMatch[0]));
     }
     // Check for scientific notation and other formats
     const number = parseFloat(input);
-    return isNaN(number) ? NaN : number;
+    return isNaN(number) ? NaN : safe(number);
 }
 exports.parseNumber = parseNumber;
 function isNumber(value) {
@@ -250,7 +250,9 @@ function isPositiveInteger(value) {
 }
 exports.isPositiveInteger = isPositiveInteger;
 function addCommas(value) {
-    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const [integerPart, decimalPart] = value.split(".");
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
 exports.addCommas = addCommas;
 function formatWithCommas(value, { strNaN } = { strNaN: "NaN" }) {
